@@ -1,0 +1,23 @@
+{
+  "name": "wasm-best-path",
+  "version": "0.0.0",
+  "description": "gateway to best-path crate",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "keywords": [
+    "webassembly",
+    "wasm",
+    "rust",
+    "webpack",
+    "best-path"
+  ],
+  "dependencies": {
+    "wasm-best-path": "file:../pkg",
+    "copy-webpack-plugin": "^5.0.0",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
+  }
+}
