@@ -15,10 +15,12 @@ function calculate() {
   const t0 = performance.now();
   const res = calcBestPath(sampleEdges);
   const t1 = performance.now();
+  const inputs = document.getElementById("inputs");
   const output = document.getElementById("output");
-  output.textContent = `time: ${t1 - t0} ms:
-
-output: ${JSON.stringify(res, null, "  ")}`
+  const time = document.getElementById("time");
+  inputs.textContent = JSON.stringify(sampleEdges, null, "  ");
+  time.textContent = `${t1 - t0} ms`;
+  output.textContent = JSON.stringify(res, null, "  ");
 }
 
 calculate();
