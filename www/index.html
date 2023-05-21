@@ -5,12 +5,88 @@
     <title>Best path calculator!</title>
   </head>
   <body>
-    <script src="./bootstrap.js"></script>
+    <style>
+      .source, .target{ width: 50px; }
+      .cost { width: 100px; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <h2>Inputs</h2>
-    <div id="inputs" style="white-space: pre ; display: block; unicode-bidi: embed; font-family: monospace, monospace;"></div>
-    <h2>Time</h2>
-    <div id="time" style="white-space: pre ; display: block; unicode-bidi: embed; font-family: monospace, monospace;"></div>
-    <h2>Output</h2>
+    <div id="inputs"></div>
+    <br/>
+    <button id="calculate">Calculate</button>
+    <h2>Output <span id="time"></span></h2>
     <div id="output" style="white-space: pre ; display: block; unicode-bidi: embed; font-family: monospace, monospace;"></div>
+    <script src="./bootstrap.js"></script>
+    <script>
+      function validateCost(input) {
+        input.value = input.value.replace(/[^0-9.]+/g, ''); // Remove non-numeric characters and extra decimal points
+        var decimalCount = input.value.split('.').length - 1;
+        if (decimalCount > 1) {
+          var parts = input.value.split('.');
+          input.value = parts[0] + '.' + parts.slice(1).join('');
+        }
+      }
+    </script>
+    <script id="input-template" type="text/x-handlebars-template">
+      {{#each state}}
+      <div class="input">
+        <input type="text" class="source" value="{{this.source}}"/>-<input type="text" class="target" value="{{this.target}}"/>
+        <select name="provider" class="provider">
+          {{#each ../providers}}
+          <option value="{{this}}" {{#ifEquals this ../this.provider}}selected{{/ifEquals}}>{{this}}</option>
+          {{/each}}
+        </select>
+        <input type="text" class="cost" oninput="validateCost(this)" value="{{this.cost}}">
+      </div>
+      {{/each}}
+    </script>
+    <script>
+      const initState = [
+        // initial prices
+        { source: "BNB", target: "USDT", provider: "Binance", cost: 354.19 },
+        { source: "USDT", target: "BNB", provider: "Dydx", cost: 0.002745 },
+        { source: "DOT", target: "USDT", provider: "Binance", cost: 17.43 },
+        { source: "USDT", target: "DOT", provider: "Uniswap", cost: 0.05737 },
+        { source: "BTC", target: "ETH", provider: "Binance", cost: 15.09 },
+        { source: "ETH", target: "BTC", provider: "1inch", cost: 0.06626 },
+        { source: "ETH", target: "BNB", provider: "Binance", cost: 6.548 },
+        { source: "BNB", target: "ETH", provider: "1inch", cost: 0.1527 },
+        { source: "BNB", target: "DOT", provider: "Binance", cost: 20.22 },
+        { source: "BNB", target: "ETH", provider: "Binance", cost: 0.21 },
+        { source: "DOT", target: "USDT", provider: "Cakeswap", cost: 17.3 },
+        // alternative bitmex prices
+        { source: "BNB", target: "USDT", provider: "Bitmex", cost: 354 },
+        { source: "USDT", target: "BNB", provider: "Bitmex", cost: 0.002799 },
+        { source: "DOT", target: "USDT", provider: "Bitmex", cost: 17.89 },
+        { source: "USDT", target: "DOT", provider: "Bitmex", cost: 0.05 },
+        { source: "BTC", target: "ETH", provider: "Bitmex", cost: 15 },
+        { source: "ETH", target: "BTC", provider: "Bitmex", cost: 0.07726 },
+        { source: "ETH", target: "BNB", provider: "Bitmex", cost: 6.578 },
+        { source: "BNB", target: "ETH", provider: "Bitmex", cost: 0.15 },
+        { source: "BNB", target: "DOT", provider: "Bitmex", cost: 20.33 },
+        // alternative raydium prices
+        { source: "BNB", target: "USDT", provider: "Raydium", cost: 353 },
+        { source: "USDT", target: "BNB", provider: "Raydium", cost: 0.0031 },
+        { source: "DOT", target: "USDT", provider: "Raydium", cost: 17.96 },
+        { source: "USDT", target: "DOT", provider: "Raydium", cost: 0.053 },
+        { source: "BTC", target: "ETH", provider: "Raydium", cost: 15.6 },
+        { source: "ETH", target: "BTC", provider: "Raydium", cost: 0.07126 },
+        { source: "ETH", target: "BNB", provider: "Raydium", cost: 6.511 },
+        { source: "BNB", target: "ETH", provider: "Raydium", cost: 0.14 },
+        { source: "BNB", target: "DOT", provider: "Raydium", cost: 20.44 },
+      ];
+      const providers = ['Binance', 'Bitmex', 'Uniswap', 'Cakeswap', '1inch', `Dydx`, 'Raydium'];
+
+      const templateSource = document.getElementById('input-template').innerHTML;
+      const template = Handlebars.compile(templateSource);
+
+      Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+        return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
+      });
+
+      const renderedHtml = template({ state: initState, providers });
+      const inputsContainer = document.getElementById('inputs');
+      inputsContainer.innerHTML = renderedHtml;
+    </script>
   </body>
 </html>

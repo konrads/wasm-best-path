@@ -9,8 +9,9 @@ cargo build
 wasm-pack build
 cd www && npm i && npm run start && cd -
 open localhost:8080
-# observe the inputs and outputs, modify www/index.js#sampleEdges as necessary
 ```
+
+![screenshot](doc/img/screenshot.png?raw=true)
 
 ## Snags
 
