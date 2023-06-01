@@ -33,11 +33,11 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 pub fn calc_best_path(edges_str: String) -> String {
     let in_graph = edges_str
-        .split("\n")
+        .split('\n')
         .map(|x| x.trim())
-        .filter(|x| x.len() > 0)
+        .filter(|x| !x.is_empty())
         .map(|x| {
-            if let [source, target, provider, cost_str] = x.split(",").map(|x| x.trim()).collect::<Vec<_>>().as_slice() {
+            if let [source, target, provider, cost_str] = x.split(',').map(|x| x.trim()).collect::<Vec<_>>().as_slice() {
                 (
                     ProviderPair {
                         pair: Pair {
@@ -56,7 +56,7 @@ pub fn calc_best_path(edges_str: String) -> String {
 
     let out_path = FloydWarshallCalculator::calc_best_paths(&in_graph).unwrap();
 
-    let res = out_path
+    out_path
         .into_iter()
         .map(|(p, pp)| {
             format!(
@@ -72,6 +72,5 @@ pub fn calc_best_path(edges_str: String) -> String {
             )
         })
         .collect::<Vec<String>>()
-        .join("\n");
-    res
+        .join("\n")
 }

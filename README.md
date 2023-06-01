@@ -1,5 +1,7 @@
 # WASM wrapper for [best-path](https://github.com/konrads/best-path) library
 
+[![build](../../workflows/build/badge.svg)](../../actions/workflows/build.yml)
+
 Wraps the best path calculation in Rust. Based on https://github.com/rustwasm/wasm_game_of_life.
 
 ## Run
