@@ -6,7 +6,7 @@ use best_path::{
         floyd_warshall::calculator::{FloydWarshallCalculator, SCALE},
         Pair, ProviderPair,
     },
-    BestPathCalculator,
+    AllPairsBestPathCalculator,
 };
 use wasm_bindgen::prelude::*;
 

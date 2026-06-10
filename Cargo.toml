@@ -1,13 +1,14 @@
 [package]
 name = "wasm-best-path"
 version = "0.1.0"
+edition = "2024"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-wasm-bindgen = "0.2"
-best-path = { version = '0.1.1', default-features = false }
+wasm-bindgen = "0.2.100"
+best-path = { version = '2.0.0', default-features = false }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3"
+wasm-bindgen-test = "0.3.50"
