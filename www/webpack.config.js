@@ -8,7 +8,17 @@ module.exports = {
     filename: "bootstrap.js",
   },
   mode: "development",
+  experiments: {
+    asyncWebAssembly: true,
+  },
+  devServer: {
+    client: {
+      overlay: {
+        runtimeErrors: (error) => !error.message.includes("MetaMask"),
+      },
+    },
+  },
   plugins: [
-    new CopyWebpackPlugin(['index.html'])
+    new CopyWebpackPlugin({ patterns: ['index.html'] })
   ]
 };
